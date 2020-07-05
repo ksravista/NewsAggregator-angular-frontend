@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { ActivatedRoute } from '@angular/router';
-import { Subscribable, Subscriber } from 'rxjs';
+import { NewsclientService } from '../newsclient.service';
+
 
 @Component({
   selector: 'app-source',
@@ -13,9 +13,9 @@ export class SourceComponent implements OnInit, OnDestroy {
   sub;
   state: any;
   toDisplay:string = '';
-  categories: Array<string> = ['world', 'us', 'politics','business','health'];
+  articles: any;
 
-  constructor(private routes: ActivatedRoute) { }
+  constructor(private routes: ActivatedRoute, private _http: NewsclientService) { }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
@@ -28,8 +28,10 @@ export class SourceComponent implements OnInit, OnDestroy {
       this.toDisplay = this.state.toDisplay;
     });
 
-    
-
+    this._http.getAll().subscribe(response =>{
+      this.articles = response;
+      console.log(this.articles);
+    });
     
   }
 

@@ -1,1 +1,7 @@
-<p>{{toDisplay}}</p>
+<div>
+    <ul *ngFor="let obj of articles">
+        <li *ngFor="let article of obj">
+            <a href="{{article.href}}">{{article.title}}</a>
+        </li>
+    </ul>
+</div>
