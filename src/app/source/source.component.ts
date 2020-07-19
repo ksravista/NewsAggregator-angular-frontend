@@ -13,7 +13,7 @@ export class SourceComponent implements OnInit, OnDestroy {
   sub;
   state: any;
   toDisplay:string = '';
-  articles: any;
+  articles: any = [];
 
   constructor(private routes: ActivatedRoute, private _http: NewsclientService) { }
 
@@ -28,10 +28,16 @@ export class SourceComponent implements OnInit, OnDestroy {
       this.toDisplay = this.state.toDisplay;
     });
 
-    this._http.getAll().subscribe(response =>{
-      this.articles = response;
-      console.log(this.articles);
-    });
+    let responses = this._http.get(this.toDisplay);
+    for(let response of responses){
+      response.subscribe(res =>{
+        this.articles.push(res);
+        // console.log(this.articles);
+      });
+
+    }
+
+
     
   }
 
